@@ -1,0 +1,147 @@
+body {
+    margin: 0;
+    background-color: #0e0e14;
+}
+
+#viewport {
+    overflow: auto;
+    width: 1920px;
+    height: 1080px;
+    background-image: url(../images/message_bg.jpg);
+}
+
+#inputbox {
+    position: absolute;
+    left: 510px;
+    top: 260px;
+    width: 1000px;
+    height: 150px;
+}
+
+#input {
+    position: absolute;
+    width: 846px;
+    height: 115px;
+    background-color: #20222c;
+    color: #f6f6f6;
+    padding: 10px;
+    border: 3px #2f3d4d dashed;
+    opacity: 0.5;
+    font-size: 18px;
+    line-height: 24px;
+    outline:none;
+}
+
+#button {
+    position: absolute;
+    top: 105px;
+    left: 880px;
+    width: 89px;
+    height: 35px;
+    background-image: url(../images/message_button.jpg);
+}
+
+#messages {
+    position: absolute;
+    top: 440px;
+    left: 510px;
+    width: 1000px;
+    height: 450px;
+}
+
+.page {
+    display: none;
+}
+
+.show {
+    display: block;
+}
+
+.active {
+    /* color: #12121c; */
+    text-shadow: 0px 0px 25px #ffffff,
+                 0px 0px 25px #ffffff,
+                 0px 0px 13px #ffffff,
+                 0px 0px 8px #ffffff;
+}
+
+.message-cell {
+    position: relative;
+    width: 1050px;
+    height: 75px;
+    margin-bottom: 15px;
+}
+
+.message-bg {
+    position: relative;
+    width: 988px;
+    height: 75px;
+    background-color: #20222c;
+    padding: 0;
+    opacity: 0.5;
+}
+
+.message-content {
+    position: relative;
+    width: 968px;
+    height: 65px;
+    color: #f6f6f6;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 13px;
+    font-family: '宋体';
+    line-height: 22px;
+    overflow: hidden;
+}
+
+.message-delete {
+    position: relative;
+    width: 16px;
+    height: 17px;
+    left: 990px;
+    top: -75px;
+    padding: 30px;
+    padding-left: 20px;
+    visibility: hidden;
+}
+
+.message-cell:hover .message-delete {
+    visibility: visible;
+}
+
+#pages {
+    position: absolute;
+    left: 510px;
+    top: 890px;
+    width: 988px;
+    height: 30px;
+}
+
+#pagebox {
+    position: relative;
+    margin: 0 auto;
+    width: 240px;
+    height: 60px;
+}
+
+.pageint {
+    display: inline;
+    position: relative;
+    width: 12px;
+    height: 12px;
+    color: #8e8d95;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 13px;
+}
+
+.swal-button {
+  padding: 7px 19px;
+  border-radius: 2px;
+  background-color: #0f256d;
+  font-size: 12px;
+  border: 1px solid #3e549a;
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+}

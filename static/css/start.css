@@ -1,0 +1,37 @@
+body {
+    margin: 0;
+    background-color: #0e0e14;
+}
+
+#viewport {
+    overflow: auto;
+    width: 1920px;
+    height: 1080px;
+    background-image: url(../images/start_bg.jpg);
+}
+
+#button {
+    position: absolute;
+    left: 660px;
+    top: 680px;
+    width: 500px;
+    height: 200px;
+}
+
+#rect {
+    position: absolute;
+    top: 80px;
+    left: 100px;
+    width: 372px;
+    height: 28px;
+    background-image: url(../images/start_button.jpg);
+}
+
+#star {
+    position: absolute;
+    top: 12px;
+    left: 52px;
+    width: 133px;
+    height: 149px;
+    background-image: url(../images/start_star.png);
+}
