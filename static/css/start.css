@@ -25,6 +25,7 @@ body {
     width: 372px;
     height: 28px;
     background-image: url(../images/start_button.jpg);
+    cursor: pointer;
 }
 
 #star {
@@ -34,13 +35,4 @@ body {
     width: 133px;
     height: 149px;
     background-image: url(../images/start_star.png);
-}
-
-#rect2 {
-    position: absolute;
-    top: 80px;
-    left: 100px;
-    width: 372px;
-    height: 28px;
-    cursor: pointer;
 }
