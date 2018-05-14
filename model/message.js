@@ -2,6 +2,7 @@ var fs = require('fs')
 
 
 var messageFilePath = 'db/message.json'
+var messageBackups = 'db/message_backups.json'
 
 
 // 这是一个用来存储 Message 数据的对象
@@ -16,6 +17,12 @@ const loadMessages = function() {
     return messages
 }
 
+const backupsMessages = function() {
+    var content = fs.readFileSync(messageBackups, 'utf8')
+    var messages = JSON.parse(content)
+    return messages
+}
+
 /*
 m 这个对象是我们要导出给别的代码用的对象
 它有一个 data 属性用来存储所有的 messages 对象
@@ -25,6 +32,10 @@ m 这个对象是我们要导出给别的代码用的对象
 */
 var m = {
     data: loadMessages()
+}
+
+var bm = {
+    data: backupsMessages()
 }
 
 m.get = function(id) {
@@ -72,6 +83,9 @@ m.new = function(form) {
     this.data.push(m)
     // 把 最新数据 保存到文件中
     this.save()
+    console.log(bm, 'bm')
+    bm.data.push(m)
+    bm.saveBackups()
     // 返回新建的数据
     return m
 }
@@ -102,11 +116,24 @@ m.delete = function(id) {
 m.save = function() {
     var s = JSON.stringify(this.data, null, 2)
     fs.writeFile(messageFilePath, s, (err) => {
-      if (err) {
-          console.log(err)
-      } else {
-          console.log('保存成功')
-      }
+        if (err) {
+            console.log(err)
+        } else {
+            console.log('保存成功')
+        }
+    })
+}
+
+
+bm.saveBackups = function() {
+    var m = JSON.stringify(this.data, null, 2)
+    console.log('m', m)
+    fs.writeFile(messageBackups, m, (err) => {
+        if (err) {
+            console.log(err)
+        } else {
+            console.log('备份保存成功')
+        }
     })
 }
 module.exports = m

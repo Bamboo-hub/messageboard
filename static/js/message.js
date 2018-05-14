@@ -156,7 +156,7 @@ var buttonClick = function() {
             }
             // 用这个数据调用 messageNew 来创建一篇新博客
             messageNew(form)
-            swal("干得漂亮！", "HTTP://123456shoudeyunkai.cn","success")
+            swal("发送成功！", "HTTP://sdykpym.cn","success")
         }
     })
 }
