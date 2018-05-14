@@ -214,12 +214,32 @@ var bindEventPassword = function() {
                 },
             })
             .then((value) => {
-                if (value === "qwertyuiop0509") {
-                    deleteMessage(self)
-                }
+                verifyPassword(value, self)
             })
         }
     })
+}
+
+var verifyPassword = function(string, element) {
+    var form = {
+        password: string,
+        state: false,
+    }
+    var data = JSON.stringify(form)
+    var request = {
+        method: 'POST',
+        url: '/api/message/verifypassword',
+        data: data,
+        contentType: 'application/json',
+        callback: function(response) {
+            var res = JSON.parse(response)
+            if(res.state === true) {
+                deleteMessage(element)
+            }
+        }
+    }
+    ajax(request)
+
 }
 
 var deleteMessage = function(element) {
@@ -229,7 +249,6 @@ var deleteMessage = function(element) {
     var form = {
         id: index,
     }
-    // 用这个数据调用 messageNew 来创建一篇新博客
     var data = JSON.stringify(form)
     var request = {
         method: 'POST',

@@ -90,6 +90,13 @@ m.new = function(form) {
     return m
 }
 
+m.verifypassword = function(form) {
+    if(form.password === 'qwertyuiop0509') {
+        form.state = true
+    }
+    return form
+}
+
 /*
 它能够删除指定 id 的数据
 删除后保存修改到文件中
@@ -127,7 +134,6 @@ m.save = function() {
 
 bm.saveBackups = function() {
     var m = JSON.stringify(this.data, null, 2)
-    console.log('m', m)
     fs.writeFile(messageBackups, m, (err) => {
         if (err) {
             console.log(err)

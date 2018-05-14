@@ -15,6 +15,8 @@ const registerRoutes = function(app, routes) {
         // 下面这段是重点
         app[route.method](route.path, route.func)
     }
+
+
 }
 // 上面的 app[route.method] 相当于下面的代码
 // app.get('/', function(request, response){
