@@ -123,8 +123,16 @@ body {
 #pagebox {
     position: relative;
     margin: 0 auto;
-    width: 240px;
+    width: 90px;
     height: 60px;
+}
+
+.pagemodule {
+    display: none;
+}
+
+.show1 {
+    display: inline;
 }
 
 .pageint {
@@ -137,6 +145,20 @@ body {
     padding-left: 10px;
     padding-right: 10px;
     font-size: 13px;
+    cursor: pointer;
+}
+
+.pageint2 {
+    display: inline;
+    position: relative;
+    width: 12px;
+    height: 12px;
+    color: #8e8d95;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 13px;
+    cursor: pointer;
 }
 
 .swal-button {
@@ -146,4 +168,29 @@ body {
   font-size: 12px;
   border: 1px solid #3e549a;
   text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+}
+
+.play {
+    position: absolute;
+    top: 63px;
+    left: 1823px;
+    width: 26px;
+    height: 26px;
+    background-image: url(../images/play.png);
+    cursor: pointer;
+}
+
+.pause {
+    position: absolute;
+    top: 63px;
+    left: 1823px;
+    width: 26px;
+    height: 26px;
+    background-image: url(../images/pause.png);
+    cursor: pointer;
+    display: none;
+}
+
+.show2 {
+    display: block;
 }

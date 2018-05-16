@@ -36,39 +36,80 @@ var bindAll = function (elements, eventName, callback) {
     }
 }
 
+var toggleClass = function(class1, element1, element2) {
+    // 播放与暂停的 class 切换
+    if (element1.classList.contains(class1)) {
+        element1.classList.remove(class1)
+        element2.classList.add(class1)
+    } else {
+        element2.classList.remove(class1)
+        element1.classList.add(class1)
+    }
+}
+
 var controlCSS = function(messages) {
     // 默认显示页一留言
     var messageOne = e('#messages-1')
     if (messageOne != null) {
         messageOne.classList.add('show')
     }
-    // 默认页码一加上外发光效果
+    // 默认显示页一留言
+    var pagemoduleOne = e('#pagemodule-1')
+    if (pagemoduleOne != null) {
+        pagemoduleOne.classList.add('show1')
+    }
+// 默认页码一加上外发光效果
     var messageOne = e('#page-1')
     if (messageOne != null) {
         messageOne.classList.add('active')
     }
     // 根据页数的多少决定页码模块宽度
     if (messages.length != 0) {
-        var pages = Math.ceil(messages.length / 5)
+        var pages = Math.ceil(messages.length / 5) + 2
         var width = pages * 30
+        if(width > 300) {
+            width = 300
+        }
         var pagebox = e('#pagebox')
         pagebox.style.width = `${width}px`
     }
 }
 
-var newpage = function(messages) {
+var loadPages = function(messages) {
     if (messages.length != 0) {
         var pages = Math.ceil(messages.length / 5)
-        for (var i = 1; i <= pages; i++) {
-            var m = `<div class="page" id="messages-${i}">
-        </div>`
+        var pagebox = e('#pagebox')
+        var left = `<div class="pageint2 page-<" data-index="<"><</div>`
+        pagebox.insertAdjacentHTML('beforeend', left)
+        newPageModule(pages)
+        var right = `<div class="pageint2 page->" data-index=">">></div>`
+        pagebox.insertAdjacentHTML('beforeend', right)
+    }
+}
+
+var newPageModule = function(pageint) {
+    var module = Math.ceil(pageint / 5)
+    log(module)
+    var pagebox = e('#pagebox')
+    for (var i = 1; i <= module; i++) {
+        // 创建页码的模块，用于接下来往内填充页码
+        var m = `<div class="pagemodule" id="pagemodule-${i}"></div>`
+        pagebox.insertAdjacentHTML('beforeend', m)
+        newPage(i, pageint)
+    }
+}
+var newPage = function(index, pages) {
+    var int = (index - 1) * 5
+    for (var i = 1; i <= 5; i++) {
+        if(i + int <= pages) {
+            // 创建每页留言的模块，用于接下来往内填充留言
+            var m = `<div class="page" id="messages-${i + int}"></div>`
             var messageContainer = e('#messages')
             messageContainer.insertAdjacentHTML('beforeend', m)
 
-            var p = `<div class="pageint" id="page-${i}" data-index="${i}">${i}</div>`
-            var messageContainer = e('#pagebox')
-            // 第一个参数 'beforeend' 意思是放在最后
-            messageContainer.insertAdjacentHTML('beforeend', p)
+            var pagemodule = findContainer('.pagemodule', '#pagemodule-', 5)
+            var m = `<div class="pageint" id="page-${i + int}" data-index="${i + int}">${i + int}</div>`
+            pagemodule.insertAdjacentHTML('beforeend', m)
         }
     }
 }
@@ -77,15 +118,14 @@ var findALL = function(element, selector) {
     return element.querySelectorAll(selector)
 }
 
-var findContainer = function() {
-    var pagemax = es('.page').length
+var findContainer = function(parentElement, keyword, elementMax) {
+    var pagemax = es(parentElement).length
     for (var i = 1; i <= pagemax; i++) {
-        var c = '#messages-'
-        var container = e(c + i)
+        var container = e(keyword + i)
         var cl = findALL(container, '*').length
-        if (cl < 20) {
+        if (cl < elementMax) {
             return container
-        } else if (cl >= 20) {
+        } else if (cl >= elementMax) {
             continue
         }
     }
@@ -95,7 +135,7 @@ var insertMessageAll = function(messages) {
     for (var i = 0; i < messages.length; i++) {
         var m = messages[i]
         var t = templateMessage(m)
-        var messageContainer = findContainer()
+        var messageContainer = findContainer('.page', '#messages-', 20)
         // 这个方法用来添加元素
         // 第一个参数 'beforeend' 意思是放在最后
         messageContainer.innerHTML += t
@@ -116,7 +156,7 @@ var loadMessages = function() {
             // 不考虑错误情况(断网/服务器返回错误等等)
             var messages = JSON.parse(response)
             window.messages = messages
-            newpage(messages)
+            loadPages(messages)
             controlCSS(messages)
             bindEventSwitch()
             insertMessageAll(messages)
@@ -156,7 +196,7 @@ var buttonClick = function() {
             }
             // 用这个数据调用 messageNew 来创建一篇新博客
             messageNew(form)
-            swal("发送成功！", "HTTP://sdykpym.cn","success")
+            swal("发送成功！", "刷新就可以看到留言啦。","success")
         }
     })
 }
@@ -185,6 +225,7 @@ var bindEventSwitch = function() {
         var a = e('.active')
         a.classList.remove('active')
         var img = '#page-' + String(xwbc)
+
         var img1 = e(img)
         img1.classList.add('active')
 
@@ -194,6 +235,37 @@ var bindEventSwitch = function() {
         var page = '#messages-' + String(xwbc)
         var page1 = e(page)
         page1.classList.add('show')
+    })
+}
+
+var pagesCSS = function(direction) {
+    var show1 = e('.show1')
+    var modules = es('.pagemodule')
+    for (var i = 0; i < modules.length; i++) {
+        var m = modules[i]
+        if(m === show1 && direction == 'left' && i != 0) {
+            m.classList.remove('show1')
+            var s = modules[i - 1]
+            s.classList.add('show1')
+        }
+        if(m === show1 && direction == 'right' && i != modules.length - 1) {
+            m.classList.remove('show1')
+            var s = modules[i + 1]
+            s.classList.add('show1')
+        }
+    }
+}
+
+var bindEventpages = function() {
+    // 绑定删除功能
+    // 切换留言与页码 css
+    document.body.addEventListener('click', function (event) {
+        var self = event.target
+        if (self.classList.contains('page-<')) {
+            pagesCSS('left')
+        } else if (self.classList.contains('page->')) {
+            pagesCSS('right')
+        }
     })
 }
 
@@ -264,9 +336,42 @@ var deleteMessage = function(element) {
     cell.remove()
 }
 
+var a = e('#id-audio-player')
+a.autoplay = true
+
+var play = function() {
+    var play = e('.play')
+    var pause = e('.pause')
+    play.addEventListener('click', function(event){
+        log('click 播放')
+        a.pause()
+        pause.style.display = 'block'
+    })
+}
+
+var pause = function() {
+    var pause = e('.pause')
+    pause.addEventListener('click', function(event){
+        log('click 暂停')
+        a.play()
+        pause.style.display = 'none'
+    })
+}
+
+var phonePlay = function() {
+    var f = function (event) {
+        a.play()
+        document.body.removeEventListener('click', f)
+    }
+    document.body.addEventListener('click', f)
+
+}
 findContainer()
 
 loadMessages()
-
 buttonClick()
 bindEventPassword()
+bindEventpages()
+play()
+pause()
+phonePlay()
